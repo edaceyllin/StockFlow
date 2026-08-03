@@ -8,18 +8,10 @@ from pathlib import Path
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction, QDoubleValidator, QIntValidator
 from PyQt6.QtWidgets import (
-    QApplication, QDialog, QFileDialog, QGroupBox, QHBoxLayout, QInputDialog,
+    QApplication, QFileDialog, QGroupBox, QHBoxLayout, QInputDialog,
     QLabel, QLineEdit, QMainWindow, QMenu, QMessageBox, QPushButton,
     QGridLayout, QTableWidget, QTableWidgetItem, QTabWidget, QVBoxLayout,
     QWidget, QHeaderView,
-)
-
-from license import (
-    LicenseError,
-    current_license_info,
-    get_machine_id,
-    install_license,
-    is_license_valid,
 )
 
 from database import (
@@ -31,88 +23,6 @@ from models import Product
 
 PRODUCT_HEADERS = ["Barkod", "Parça Adı", "Kategori", "Marka", "Araç", "OEM", "Raf", "Tedarikçi", "Alış", "Satış", "Stok", "Min."]
 EXCEL_HEADERS = ["Barkod", "Parça Adı", "Kategori", "Marka", "Araç Modeli", "OEM Kodu", "Raf Kodu", "Tedarikçi", "Alış Fiyatı", "Satış Fiyatı", "Stok", "Min. Stok"]
-
-
-class LicenseDialog(QDialog):
-    """
-    Uygulama acilirken lisans yoksa/gecersizse gosterilen kapatilamaz
-    (modal) diyalog. Kullaniciya Machine ID'sini gosterir ve
-    "Lisans Dosyasi Sec" butonuyla license.dat secmesini saglar.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.setWindowTitle("StockFlow ERP Lite — Lisans Gerekli")
-        self.setModal(True)
-        self.setMinimumWidth(480)
-        self.setWindowFlag(Qt.WindowType.WindowContextHelpButtonHint, False)
-
-        layout = QVBoxLayout(self)
-
-        info_label = QLabel(
-            "Bu bilgisayarda gecerli bir StockFlow ERP Lite lisansi bulunamadi.\n\n"
-            "Lisans satin almak icin asagidaki Machine ID'yi saticiya iletin. "
-            "Saticidan aldiginiz license.dat dosyasini 'Lisans Dosyasi Sec' "
-            "butonuyla secin."
-        )
-        info_label.setWordWrap(True)
-        layout.addWidget(info_label)
-
-        machine_box = QGroupBox("Machine ID (bu bilgisayara ozeldir)")
-        machine_layout = QHBoxLayout(machine_box)
-        self.machine_id_field = QLineEdit(get_machine_id())
-        self.machine_id_field.setReadOnly(True)
-        self.machine_id_field.setStyleSheet("font-family: monospace; font-size: 13px;")
-        machine_layout.addWidget(self.machine_id_field)
-        copy_button = QPushButton("Kopyala")
-        copy_button.clicked.connect(self._copy_machine_id)
-        machine_layout.addWidget(copy_button)
-        layout.addWidget(machine_box)
-
-        self.status_label = QLabel("")
-        self.status_label.setStyleSheet("color: #b91c1c; font-weight: 600;")
-        self.status_label.setWordWrap(True)
-        layout.addWidget(self.status_label)
-
-        button_row = QHBoxLayout()
-        select_button = QPushButton("Lisans Dosyasi Sec")
-        select_button.setStyleSheet(
-            "background-color:#2563eb; color:white; padding:8px 16px; font-weight:600;"
-        )
-        select_button.clicked.connect(self._select_license_file)
-        button_row.addWidget(select_button)
-
-        exit_button = QPushButton("Cikis")
-        exit_button.clicked.connect(self.reject)
-        button_row.addWidget(exit_button)
-        layout.addLayout(button_row)
-
-    def _copy_machine_id(self) -> None:
-        QApplication.clipboard().setText(self.machine_id_field.text())
-        self.status_label.setStyleSheet("color: #15803d; font-weight: 600;")
-        self.status_label.setText("Machine ID panoya kopyalandi.")
-
-    def _select_license_file(self) -> None:
-        path, _ = QFileDialog.getOpenFileName(
-            self, "Lisans Dosyasi Sec", "", "Lisans Dosyasi (*.dat);;Tum Dosyalar (*)"
-        )
-        if not path:
-            return
-
-        try:
-            info = install_license(path)
-        except LicenseError as error:
-            self.status_label.setStyleSheet("color: #b91c1c; font-weight: 600;")
-            self.status_label.setText(str(error))
-            return
-
-        expiry_text = f" (bitis: {info.expires})" if info.expires else " (suresiz)"
-        QMessageBox.information(
-            self,
-            "Lisans Etkinlestirildi",
-            f"Lisans basariyla dogrulandi{expiry_text}. Uygulama baslatiliyor.",
-        )
-        self.accept()
 
 
 class StockApp(QMainWindow):
@@ -461,30 +371,3 @@ class StockApp(QMainWindow):
         except Exception as error:
             QMessageBox.critical(self, "Excel hatası", f"Dosya okunamadı:\n{error}")
 
-def run_app() -> int:
-    """
-    Uygulamanin TEK gercek giris noktasi. Hem main.py hem de bu dosyanin
-    __main__ bloğu buradan gecer; boylece lisans kontrolu asla atlanamaz
-    (main.py'nin dogrudan StockApp() olusturup kontrolu bypass etmesi
-    onlenir).
-    """
-    app = QApplication.instance() or QApplication([])
-
-    if not is_license_valid():
-        dialog = LicenseDialog()
-        if dialog.exec() != QDialog.DialogCode.Accepted:
-            return 1
-        # LicenseDialog.accept() yalnizca install_license() basariyla
-        # tamamlandiginda cagrilir; yine de savunmaci programlama adina
-        # burada tekrar kontrol edilir.
-        if not is_license_valid():
-            return 1
-
-    window = StockApp()
-    window.show()
-    return app.exec()
-
-
-if __name__ == "__main__":
-    import sys
-    sys.exit(run_app())

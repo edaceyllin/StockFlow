@@ -48,18 +48,18 @@ PRODUCT_NAME = "StockFlow ERP Lite"
 # generator.py "init-keys" komutuyla uretilen ciftin GENEL anahtarini buraya
 # yapistirin. production'a gecmeden once KENDI anahtarinizi uretip degistirin.
 PUBLIC_KEY_PEM = b"""-----BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqbh0BEFTEzXA6/56DBAn
-hOC2N4ixO7o2xKGN53poqv5onORBKj5zEQumqAZM/ZwOzXw1UaAm+mrzoHf8StME
-aNmdRwhGfoTiSbZ3DlmqZokLF/tGTp0G5iDg/jxQ8//Dd4vNe8EprftDPhWeVd5u
-5o2XxrvMFjR0Wyz7ahC/mUGG5gH2RenCK2K+cBJjqlLmILaofqEnR1yiiUyXbXTT
-13HSAI1dyOcSmLd3Ooizrw+TkE/Nx5hoqR2Zzyn0F1i7L1bKK9mVwOVEPylBe6AS
-1OD6ZjcZ/2cTM5uT+puPiw1awvCgALwZAgGzdPdtUM/Epb1gh4q6qCUd2h3nAcEf
-ggDR2OhThRHCCYC+yCGvwDOKKwHWvw9Q1iMUlJK7k64jlp5fRBaJrtaOlLtvbtu6
-ABEV54MwIPpjFt4OSrLh39eHv9rGo/RM0STtQ/NKs1hfwEvh5wQxIk2Gff6uxDeF
-aIbqLYhHMxblDcSOrGuhS/QWHDaB+hxjaEIwnqe+60sH+h24ze00+rcRH3a9agf1
-Rp2rNFbkwts9yML2juTsc8vALptcSbjtxuT/9Ww6foFIHcxIoCUEwszRgwVGYa5u
-GTAnthvhf1QQ1XUC+a6EdKf7NgwVlLJ71bjw+WNUgAhakcaiGn0f7I4FWddeli0C
-bVJk/DgbN2XEzG63jW8vTPMCAwEAAQ==
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAm1yztTSwxBnKEDWNG6Md
+mJkrU99qJB0Xo24TtvRJnA4HasHzdgGxoppiLnftC1ZdqOffTDxu6Bk96JYLgoma
+7HGcHUMmLovmDtxl3Oj+IX4kIkzISa17rDV9PFTCUOeml+IAcv4Fw2jf2MWvcSCh
+3i28PUqcSy8eg8psuUz6TsFrVzzCPPhRYnlAlrT41C9PHA5fNA10rvDScHVcqUP1
+hqywgJhNKGFg5HKGbjrTz88uJLtdrxcloNoaHIYed2E0Vcn6SbYlkZMvD9JrV6h9
+fHBM8RjNjXw/qOMx9tNC0P4Z6khYxVkdTvp2Qx4FfB+ktM+YCLD0SOEu8hye8SDQ
+Du1chQZySsgSPIzWzOe3a17X+6P1FgZJnALfkppNUQVCBtRWTdJsvZwYAXaRReBA
+kJ/euS1LS7IRnU0ymkLgkUTIWL+FFAlL4vncHnpuU9fq/FmqWl9fRhuiq1J1IReU
+GLPYIJWToFbbPVWfaH7e8edYVXagF8Kxk4ApKJLen27wZb4VqPwqgU/piiG2GrSg
+F+SIlsH7ApYLC3JXXM1AQc10bgAqFxsUrbe461VjvxprtXxgo4vex+yWOf2dzFnD
+b1PiLiWXxlteq0ixy4OS5mVyIZy2poRySRmdOtZoPWNr79Pw5fGnd6+3qWntEiZx
+mQPUgInJ61pWwYIzuz+A0ecCAwEAAQ==
 -----END PUBLIC KEY-----"""
 
 
