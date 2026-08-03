@@ -1,0 +1,7 @@
+Gelistirici_Araclari_GIZLI/
+*.pem
+*.dat
+__pycache__/
+.venv/
+venv/
+*.db
